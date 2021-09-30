@@ -6,52 +6,52 @@ const timestamps: number[] = []
 
 timestamps.unshift(getTimestamp())
 
-function getRandomNumber (min = 0, max = 1) {
-	min = Math.ceil(min)
-	max = Math.floor(max)
-	return Math.floor(Math.random() * (max - min + 1)) + min
+function getRandomNumber(min = 0, max = 1) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function getRandomKey () {
-	return 'A' || keys[getRandomNumber(0, keys.length - 1)]
+function getRandomKey() {
+  return keys[getRandomNumber(0, keys.length - 1)]
 }
 
-function targetRandomKey () {
-	const key = document.getElementById(getRandomKey())
-	key?.classList.add('selected')
+function targetRandomKey() {
+  const key = document.getElementById(getRandomKey())
+  key?.classList.add('selected')
 }
 
-function getTimestamp () {
-	return Math.floor(Date.now())
+function getTimestamp() {
+  return Math.floor(Date.now())
 }
 
 onMounted(() => {
-	document.addEventListener('keyup', event => {
-		const keyPressed = String.fromCharCode(event.keyCode)
-		const keyElement = document.getElementById(keyPressed)
-		if (keyElement) {
-			keyElement.classList.add('hit')
-			keyElement.addEventListener('animationend', () => {
-				keyElement.classList.remove('hit')
-			})
-		}
-		const highlightedKey = document.querySelector('.selected')
+  document.addEventListener('keyup', event => {
+    const keyPressed = String.fromCharCode(event.keyCode)
+    const keyElement = document.getElementById(keyPressed)
+    if (keyElement) {
+      keyElement.classList.add('hit')
+      keyElement.addEventListener('animationend', () => {
+        keyElement.classList.remove('hit')
+      })
+    }
+    const highlightedKey = document.querySelector('.selected')
 
-		if (highlightedKey) {
-			if (keyPressed === highlightedKey.innerHTML) {
-				timestamps.unshift(getTimestamp())
-				const elapsedTime = (timestamps[0] - timestamps[1]) / 1000
-				let speed = 0
-				if (elapsedTime) {
-					speed = Math.floor(60 / elapsedTime)
-				}
-				console.log(`Character per minute ${speed}`)
-				highlightedKey.classList.remove('selected')
-				targetRandomKey()
-			}
-		}
-	})
-	targetRandomKey()
+    if (highlightedKey) {
+      if (keyPressed === highlightedKey.innerHTML) {
+        timestamps.unshift(getTimestamp())
+        const elapsedTime = (timestamps[0] - timestamps[1]) / 1000
+        let speed = 0
+        if (elapsedTime) {
+          speed = Math.floor(60 / elapsedTime)
+        }
+        console.log(`Character per minute ${speed}`)
+        highlightedKey.classList.remove('selected')
+        targetRandomKey()
+      }
+    }
+  })
+  targetRandomKey()
 })
 
 </script>
